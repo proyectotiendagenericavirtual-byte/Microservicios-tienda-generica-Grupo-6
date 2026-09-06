@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Tienda Genérica - Ventas</title>
+
+<link rel="stylesheet" href="css/estilo.css">
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f4f7fb;
+        color: #1e293b;
+    }
+
+    /* =========================
+       SIDEBAR
+    ========================= */
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 250px;
+        height: 100vh;
+        background: #0f172a;
+        padding: 24px 16px;
+        z-index: 1000;
+        box-shadow: 4px 0 20px rgba(15, 23, 42, 0.12);
+    }
+
+    .brand {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 10px 28px;
+        color: white;
+    }
+
+    .brand-logo {
+        width: 42px;
+        height: 42px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 17px;
+        color: white;
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+    }
+
+    .brand-text strong {
+        display: block;
+        font-size: 16px;
+    }
+
+    .brand-text span {
+        display: block;
+        font-size: 11px;
+        color: #94a3b8;
+        margin-top: 3px;
+    }
+
+    .nav-title {
+        color: #64748b;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 0 12px;
+        margin: 8px 0 10px;
+        font-weight: 700;
+    }
+
+    .sidebar nav {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .sidebar nav a {
+        text-decoration: none;
+        color: #cbd5e1;
+        padding: 12px 13px;
+        border-radius: 9px;
+        display: flex;
+        align-items: center;
+        gap: 11px;
+        font-size: 13px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .sidebar nav a:hover {
+        background: rgba(255,255,255,0.07);
+        color: white;
+        transform: translateX(2px);
+    }
+
+    .sidebar nav a.active {
+        background: linear-gradient(
+            90deg,
+            rgba(37,99,235,0.25),
+            rgba(124,58,237,0.18)
+        );
+        color: white;
+        box-shadow: inset 3px 0 #3b82f6;
+    }
+
+    .nav-icon {
+        width: 22px;
+        text-align: center;
+        font-size: 15px;
+    }
+
+    .sidebar-bottom {
+        position: absolute;
+        bottom: 20px;
+        left: 16px;
+        right: 16px;
+    }
+
+    .logout {
+        border-top: 1px solid rgba(255,255,255,0.07);
+        padding-top: 15px;
+    }
+
+    .logout a {
+        color: #94a3b8 !important;
+    }
+
+    .logout a:hover {
+        color: #f87171 !important;
+        background: rgba(239,68,68,0.08) !important;
+    }
+
+    /* =========================
+       MAIN
+    ========================= */
+
+    .main {
+        margin-left: 250px;
+        min-height: 100vh;
+    }
+
+    .topbar {
+        height: 72px;
+        background: white;
+        border-bottom: 1px solid #e2e8f0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 34px;
+    }
+
+    .page-title h1 {
+        margin: 0;
+        font-size: 20px;
+        color: #0f172a;
+    }
+
+    .page-title p {
+        margin: 4px 0 0;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .user-area {
+        display: flex;
+        align-items: center;
+        gap: 11px;
+    }
+
+    .user-info {
+        text-align: right;
+    }
+
+    .user-info strong {
+        display: block;
+        font-size: 12px;
+        color: #1e293b;
+    }
+
+    .user-info span {
+        font-size: 10px;
+        color: #64748b;
+    }
+
+    .avatar {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg,#2563eb,#7c3aed);
+        color: white;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    /* =========================
+       CONTENT
+    ========================= */
+
+    .content {
+        padding: 30px 34px;
+        max-width: 1500px;
+    }
+
+    .welcome {
+        margin-bottom: 24px;
+    }
+
+    .welcome h2 {
+        margin: 0;
+        font-size: 25px;
+        color: #0f172a;
+    }
+
+    .welcome p {
+        margin: 6px 0 0;
+        color: #64748b;
+        font-size: 13px;
+    }
+
+    /* =========================
+       CARDS
+    ========================= */
+
+    .card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 15px;
+        box-shadow: 0 5px 18px rgba(15,23,42,0.04);
+        margin-bottom: 22px;
+        overflow: hidden;
+    }
+
+    .card-header {
+        padding: 20px 24px;
+        border-bottom: 1px solid #eef2f7;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .card-header h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #0f172a;
+    }
+
+    .card-header p {
+        margin: 4px 0 0;
+        color: #64748b;
+        font-size: 11px;
+    }
+
+    .card-body {
+        padding: 24px;
+    }
+
+    /* =========================
+       CLIENTE
+    ========================= */
+
+    .client-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+    }
+
+    .field {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .field label {
+        font-size: 12px;
+        font-weight: 600;
+        color: #334155;
+        margin-bottom: 7px;
+    }
+
+    .field input {
+        height: 42px;
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 0 13px;
+        font-size: 13px;
+        color: #1e293b;
+        outline: none;
+        transition: 0.2s;
+    }
+
+    .field input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.1);
+    }
+
+    .input-button {
+        display: flex;
+        gap: 8px;
+    }
+
+    .input-button input {
+        flex: 1;
+    }
+
+    input:disabled {
+        background: #f8fafc;
+        color: #475569;
+        cursor: not-allowed;
+    }
+
+    /* =========================
+       BADGES
+    ========================= */
+
+    .sale-number {
+        background: #eff6ff;
+        color: #1d4ed8;
+        border: 1px solid #dbeafe;
+        padding: 8px 12px;
+        border-radius: 8px;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* =========================
+       TABLE
+    ========================= */
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .products-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 850px;
+    }
+
+    .products-table th {
+        background: #f8fafc;
+        color: #475569;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 13px 12px;
+        text-align: left;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+    .products-table td {
+        padding: 12px;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .products-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .products-table tr:hover {
+        background: #fafcff;
+    }
+
+    .products-table input {
+        height: 38px;
+        border: 1px solid #cbd5e1;
+        border-radius: 7px;
+        padding: 0 10px;
+        font-size: 12px;
+        outline: none;
+    }
+
+    .products-table input:focus {
+        border-color: #2563eb;
+        box-shadow: 0 0 0 3px rgba(37,99,235,0.08);
+    }
+
+    .code-input {
+        width: 110px;
+    }
+
+    .name-input {
+        width: 220px;
+    }
+
+    .quantity-input {
+        width: 80px;
+    }
+
+    .total-input {
+        width: 140px;
+        font-weight: 600;
+    }
+
+    /* =========================
+       BOTONES
+    ========================= */
+
+    .btn {
+        border: none;
+        border-radius: 8px;
+        padding: 10px 15px;
+        font-size: 11px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: 0.2s;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 6px;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-primary {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 4px 10px rgba(37,99,235,0.2);
+    }
+
+    .btn-primary:hover {
+        background: #1d4ed8;
+    }
+
+    .btn-success {
+        background: #16a34a;
+        color: white;
+    }
+
+    .btn-success:hover {
+        background: #15803d;
+    }
+
+    .btn-secondary {
+        background: #f1f5f9;
+        color: #334155;
+        border: 1px solid #e2e8f0;
+    }
+
+    .btn-secondary:hover {
+        background: #e2e8f0;
+    }
+
+    /* =========================
+       RESUMEN
+    ========================= */
+
+    .summary {
+        display: flex;
+        justify-content: flex-end;
+    }
+
+    .summary-box {
+        width: 380px;
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        padding: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 0;
+        font-size: 12px;
+        color: #64748b;
+    }
+
+    .summary-row strong {
+        color: #334155;
+        font-size: 13px;
+    }
+
+    .summary-row.total {
+        border-top: 1px solid #cbd5e1;
+        margin-top: 8px;
+        padding-top: 15px;
+    }
+
+    .summary-row.total span {
+        color: #0f172a;
+        font-weight: 700;
+    }
+
+    .summary-row.total strong {
+        font-size: 20px;
+        color: #2563eb;
+    }
+
+    /* =========================
+       FINAL ACTIONS
+    ========================= */
+
+    .final-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        margin-top: 20px;
+    }
+
+    .confirm-button {
+        padding: 12px 24px;
+        font-size: 12px;
+    }
+
+    /* =========================
+       MENSAJES
+    ========================= */
+
+    #mensaje {
+        margin-top: 18px;
+    }
+
+    .msg {
+        padding: 12px 15px;
+        border-radius: 8px;
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .msg.ok {
+        background: #ecfdf5;
+        color: #166534;
+        border: 1px solid #bbf7d0;
+    }
+
+    .msg.error {
+        background: #fef2f2;
+        color: #991b1b;
+        border: 1px solid #fecaca;
+    }
+
+    /* =========================
+       RESPONSIVE
+    ========================= */
+
+    @media (max-width: 900px) {
+
+        .sidebar {
+            width: 215px;
+        }
+
+        .main {
+            margin-left: 215px;
+        }
+
+        .content {
+            padding: 25px 20px;
+        }
+
+        .client-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 700px) {
+
+        .sidebar {
+            position: relative;
+            width: 100%;
+            height: auto;
+            padding: 15px;
+        }
+
+        .brand {
+            padding-bottom: 15px;
+        }
+
+        .sidebar nav {
+            flex-direction: row;
+            overflow-x: auto;
+        }
+
+        .sidebar nav a {
+            white-space: nowrap;
+        }
+
+        .nav-title,
+        .sidebar-bottom {
+            display: none;
+        }
+
+        .main {
+            margin-left: 0;
+        }
+
+        .topbar {
+            padding: 0 18px;
+        }
+
+        .user-info {
+            display: none;
+        }
+
+        .content {
+            padding: 22px 15px;
+        }
+
+        .summary {
+            justify-content: stretch;
+        }
+
+        .summary-box {
+            width: 100%;
+        }
+
+        .final-actions {
+            flex-direction: column;
+        }
+
+        .final-actions .btn {
+            width: 100%;
+        }
+    }
+
+</style>
+</head>
+
+<body>
+
+<!-- =========================
+     SIDEBAR
+========================= -->
+
+<aside class="sidebar">
+
+    <div class="brand">
+
+        <div class="brand-logo">
+            TG
+        </div>
+
+        <div class="brand-text">
+            <strong>Tienda Genérica</strong>
+            <span>Panel administrativo</span>
+        </div>
+
+    </div>
+
+
+    <div class="nav-title">
+        Administración
+    </div>
+
+
+    <nav>
+
+        <a href="menu.html">
+            <span class="nav-icon">⌂</span>
+            Inicio
+        </a>
+
+        <a href="usuarios.html">
+            <span class="nav-icon">👤</span>
+            Usuarios
+        </a>
+
+        <a href="clientes.html">
+            <span class="nav-icon">♙</span>
+            Clientes
+        </a>
+
+        <a href="proveedores.html">
+            <span class="nav-icon">▣</span>
+            Proveedores
+        </a>
+
+        <a href="productos.html">
+            <span class="nav-icon">▦</span>
+            Productos
+        </a>
+
+        <a href="ventas.html" class="active">
+            <span class="nav-icon">▤</span>
+            Ventas
+        </a>
+
+        <a href="reportes.html">
+            <span class="nav-icon">▥</span>
+            Reportes
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <div class="logout">
+
+            <a href="index.html">
+
+                <span class="nav-icon">↪</span>
+
+                Cerrar sesión
+
+            </a>
+
+        </div>
+
+    </div>
+
+</aside>
+
+
+<!-- =========================
+     MAIN
+========================= -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <div class="page-title">
+
+            <h1>Ventas</h1>
+
+            <p>
+                Registro y gestión de ventas
+            </p>
+
+        </div>
+
+
+        <div class="user-area">
+
+            <div class="user-info">
+
+                <strong id="usuarioNombre">
+                    Administrador
+                </strong>
+
+                <span>
+                    Usuario activo
+                </span>
+
+            </div>
+
+            <div
+                class="avatar"
+                id="avatarUsuario">
+
+                A
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <section class="content">
+
+        <div class="welcome">
+
+            <h2>
+                Registro de Venta
+            </h2>
+
+            <p>
+                Registre una nueva venta asociando un cliente
+                y hasta tres productos.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             CLIENTE
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+                        👤 Información del cliente
+                    </h3>
+
+                    <p>
+                        Busque el cliente que realizará la compra.
+                    </p>
+
+                </div>
+
+                <div class="sale-number">
+                    Nueva venta
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="client-grid">
+
+                    <div class="field">
+
+                        <label for="cedulaCliente">
+                            Cédula del cliente
+                        </label>
+
+                        <div class="input-button">
+
+                            <input
+                                type="text"
+                                id="cedulaCliente"
+                                placeholder="Ingrese la cédula"
+                            >
+
+                            <button
+                                class="btn btn-primary"
+                                onclick="consultarCliente()">
+
+                                🔎 Consultar
+
+                            </button>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="nombreCliente">
+                            Cliente
+                        </label>
+
+                        <input
+                            type="text"
+                            id="nombreCliente"
+                            placeholder="Nombre del cliente"
+                            disabled
+                        >
+
+                    </div>
+
+
+                    <div class="field">
+
+                        <label for="consecutivo">
+                            Consecutivo de venta
+                        </label>
+
+                        <input
+                            type="text"
+                            id="consecutivo"
+                            placeholder="Se asignará al confirmar"
+                            disabled
+                        >
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             PRODUCTOS
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+                        🛒 Productos de la venta
+                    </h3>
+
+                    <p>
+                        Seleccione los productos y especifique
+                        la cantidad.
+                    </p>
+
+                </div>
+
+                <button
+                    class="btn btn-secondary"
+                    onclick="limpiarVenta()">
+
+                    ↻ Limpiar
+
+                </button>
+
+            </div>
+
+
+            <div class="table-container">
+
+                <table class="products-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Código
+                            </th>
+
+                            <th>
+                                Acción
+                            </th>
+
+                            <th>
+                                Producto
+                            </th>
+
+                            <th>
+                                Cantidad
+                            </th>
+
+                            <th>
+                                Valor total
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        <tr>
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="cod0"
+                                    class="code-input"
+                                    placeholder="Código"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="consultarProducto(0)">
+
+                                    🔎 Consultar
+
+                                </button>
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="nom0"
+                                    class="name-input"
+                                    placeholder="Producto"
+                                    disabled
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    id="cant0"
+                                    class="quantity-input"
+                                    min="1"
+                                    placeholder="0"
+                                    onchange="calcularFila(0)"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="tot0"
+                                    class="total-input"
+                                    placeholder="$ 0"
+                                    disabled
+                                >
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="cod1"
+                                    class="code-input"
+                                    placeholder="Código"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="consultarProducto(1)">
+
+                                    🔎 Consultar
+
+                                </button>
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="nom1"
+                                    class="name-input"
+                                    placeholder="Producto"
+                                    disabled
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    id="cant1"
+                                    class="quantity-input"
+                                    min="1"
+                                    placeholder="0"
+                                    onchange="calcularFila(1)"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="tot1"
+                                    class="total-input"
+                                    placeholder="$ 0"
+                                    disabled
+                                >
+
+                            </td>
+
+                        </tr>
+
+
+                        <tr>
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="cod2"
+                                    class="code-input"
+                                    placeholder="Código"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <button
+                                    class="btn btn-primary"
+                                    onclick="consultarProducto(2)">
+
+                                    🔎 Consultar
+
+                                </button>
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="nom2"
+                                    class="name-input"
+                                    placeholder="Producto"
+                                    disabled
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="number"
+                                    id="cant2"
+                                    class="quantity-input"
+                                    min="1"
+                                    placeholder="0"
+                                    onchange="calcularFila(2)"
+                                >
+
+                            </td>
+
+
+                            <td>
+
+                                <input
+                                    type="text"
+                                    id="tot2"
+                                    class="total-input"
+                                    placeholder="$ 0"
+                                    disabled
+                                >
+
+                            </td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- =========================
+             RESUMEN
+        ========================= -->
+
+        <div class="card">
+
+            <div class="card-header">
+
+                <div>
+
+                    <h3>
+                        💰 Resumen de la venta
+                    </h3>
+
+                    <p>
+                        Valores calculados antes de confirmar.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="card-body">
+
+                <div class="summary">
+
+                    <div class="summary-box">
+
+                        <div class="summary-row">
+
+                            <span>
+                                Total venta
+                            </span>
+
+                            <strong id="totalVentaTexto">
+                                $ 0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row">
+
+                            <span>
+                                Total IVA
+                            </span>
+
+                            <strong id="totalIvaTexto">
+                                $ 0
+                            </strong>
+
+                        </div>
+
+
+                        <div class="summary-row total">
+
+                            <span>
+                                Total con IVA
+                            </span>
+
+                            <strong id="totalConIvaTexto">
+                                $ 0
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- Campos utilizados por la lógica -->
+                <input
+                    type="hidden"
+                    id="totalVenta"
+                >
+
+                <input
+                    type="hidden"
+                    id="totalIva"
+                >
+
+                <input
+                    type="hidden"
+                    id="totalConIva"
+                >
+
+
+                <div class="final-actions">
+
+                    <button
+                        class="btn btn-secondary"
+                        onclick="totalizar()">
+
+                        🧮 Totalizar
+
+                    </button>
+
+
+                    <button
+                        class="btn btn-success confirm-button"
+                        onclick="confirmar()">
+
+                        ✓ Confirmar venta
+
+                    </button>
+
+                </div>
+
+
+                <div id="mensaje"></div>
+
+            </div>
+
+        </div>
+
+    </section>
+
+</main>
+
+
+<script src="js/db.js"></script>
+
+<script>
+
+    /* =========================
+       PRODUCTOS SELECCIONADOS
+    ========================= */
+
+    const productosSel = [
+        null,
+        null,
+        null
+    ];
+
+
+    /* =========================
+       SESIÓN
+    ========================= */
+
+    const sesion =
+        DB.get(DB.KEYS.sesion);
+
+
+    if (sesion) {
+
+        const nombre =
+            sesion.nombre ||
+            sesion.nombreUsuario ||
+            sesion.usuario ||
+            "Administrador";
+
+
+        document.getElementById(
+            "usuarioNombre"
+        ).textContent = nombre;
+
+
+        document.getElementById(
+            "avatarUsuario"
+        ).textContent =
+            nombre.charAt(0).toUpperCase();
+
+    }
+
+
+    /* =========================
+       MENSAJES
+    ========================= */
+
+    function mostrarMensaje(texto, tipo) {
+
+        document.getElementById(
+            'mensaje'
+        ).innerHTML = texto
+            ? `<div class="msg ${tipo}">${texto}</div>`
+            : '';
+
+    }
+
+
+    /* =========================
+       FORMATO MONEDA
+    ========================= */
+
+    function formatoMoneda(valor) {
+
+        return Number(valor || 0).toLocaleString(
+            'es-CO',
+            {
+                style: 'currency',
+                currency: 'COP',
+                minimumFractionDigits: 2
+            }
+        );
+
+    }
+
+
+    /* =========================
+       CONSULTAR CLIENTE
+    ========================= */
+
+    function consultarCliente() {
+
+        const cedula =
+            document.getElementById(
+                'cedulaCliente'
+            ).value;
+
+
+        if (!cedula) {
+
+            mostrarMensaje(
+                'Ingrese la cédula del cliente.',
+                'error'
+            );
+
+            return;
+        }
+
+
+        const lista =
+            DB.get(DB.KEYS.clientes);
+
+
+        const c =
+            lista.find(
+                x =>
+                    String(x.cedulaCliente) ===
+                    String(cedula)
+            );
+
+
+        if (c) {
+
+            document.getElementById(
+                'nombreCliente'
+            ).value =
+                c.nombreCliente;
+
+
+            mostrarMensaje(
+                '✓ Cliente encontrado correctamente.',
+                'ok'
+            );
+
+        } else {
+
+            document.getElementById(
+                'nombreCliente'
+            ).value = '';
+
+
+            mostrarMensaje(
+                'La cédula no se encuentra registrada en la base de datos.',
+                'error'
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       CONSULTAR PRODUCTO
+    ========================= */
+
+    function consultarProducto(i) {
+
+        const codigo =
+            document.getElementById(
+                `cod${i}`
+            ).value;
+
+
+        if (!codigo) {
+
+            mostrarMensaje(
+                'Ingrese el código del producto.',
+                'error'
+            );
+
+            return;
+        }
+
+
+        const lista =
+            DB.get(DB.KEYS.productos);
+
+
+        const p =
+            lista.find(
+                x =>
+                    String(x.codigoProducto) ===
+                    String(codigo)
+            );
+
+
+        if (p) {
+
+            document.getElementById(
+                `nom${i}`
+            ).value =
+                p.nombreProducto;
+
+
+            productosSel[i] = p;
+
+
+            mostrarMensaje(
+                '✓ Producto encontrado correctamente.',
+                'ok'
+            );
+
+
+            calcularFila(i);
+
+        } else {
+
+            document.getElementById(
+                `nom${i}`
+            ).value = '';
+
+
+            productosSel[i] = null;
+
+
+            mostrarMensaje(
+                'El código de producto no se encuentra registrado en la base de datos.',
+                'error'
+            );
+
+        }
+
+    }
+
+
+    /* =========================
+       CALCULAR FILA
+    ========================= */
+
+    function calcularFila(i) {
+
+        const cantidad =
+            Number(
+                document.getElementById(
+                    `cant${i}`
+                ).value
+            );
+
+
+        const p =
+            productosSel[i];
+
+
+        if (!p) {
+            return;
+        }
+
+
+        if (!cantidad || cantidad <= 0) {
+
+            mostrarMensaje(
+                'El valor de cantidad es incorrecto.',
+                'error'
+            );
+
+
+            document.getElementById(
+                `tot${i}`
+            ).value = '';
+
+
+            return;
+        }
+
+
+        const total =
+            cantidad *
+            p.precioVenta;
+
+
+        document.getElementById(
+            `tot${i}`
+        ).value =
+            formatoMoneda(total);
+
+    }
+
+
+    /* =========================
+       TOTALIZAR
+    ========================= */
+
+    function totalizar() {
+
+        let totalVenta = 0;
+
+        let totalIva = 0;
+
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
+
+            const p =
+                productosSel[i];
+
+
+            const cantidad =
+                Number(
+                    document.getElementById(
+                        `cant${i}`
+                    ).value
+                );
+
+
+            if (
+                p &&
+                cantidad > 0
+            ) {
+
+                const subtotal =
+                    cantidad *
+                    p.precioVenta;
+
+
+                const iva =
+                    subtotal *
+                    (p.ivaCompra / 100);
+
+
+                totalVenta += subtotal;
+
+                totalIva += iva;
+
+            }
+
+        }
+
+
+        const totalConIva =
+            totalVenta +
+            totalIva;
+
+
+        /*
+         * Valores internos
+         */
+
+        document.getElementById(
+            'totalVenta'
+        ).value =
+            totalVenta.toFixed(2);
+
+
+        document.getElementById(
+            'totalIva'
+        ).value =
+            totalIva.toFixed(2);
+
+
+        document.getElementById(
+            'totalConIva'
+        ).value =
+            totalConIva.toFixed(2);
+
+
+        /*
+         * Valores visuales
+         */
+
+        document.getElementById(
+            'totalVentaTexto'
+        ).textContent =
+            formatoMoneda(totalVenta);
+
+
+        document.getElementById(
+            'totalIvaTexto'
+        ).textContent =
+            formatoMoneda(totalIva);
+
+
+        document.getElementById(
+            'totalConIvaTexto'
+        ).textContent =
+            formatoMoneda(totalConIva);
+
+    }
+
+
+    /* =========================
+       CONFIRMAR
+    ========================= */
+
+    function confirmar() {
+
+        const cedulaCliente =
+            Number(
+                document.getElementById(
+                    'cedulaCliente'
+                ).value
+            );
+
+
+        const sesion =
+            DB.get(DB.KEYS.sesion) || {};
+
+
+        const cedulaUsuario =
+            sesion.cedulaUsuario || 1;
+
+
+        totalizar();
+
+
+        const totalVenta =
+            Number(
+                document.getElementById(
+                    'totalVenta'
+                ).value
+            );
+
+
+        const totalIva =
+            Number(
+                document.getElementById(
+                    'totalIva'
+                ).value
+            );
+
+
+        const totalConIva =
+            Number(
+                document.getElementById(
+                    'totalConIva'
+                ).value
+            );
+
+
+        if (
+            !cedulaCliente ||
+            !totalVenta
+        ) {
+
+            mostrarMensaje(
+                'Complete los datos del cliente y agregue al menos un producto antes de confirmar.',
+                'error'
+            );
+
+            return;
+        }
+
+
+        const confirmarVenta =
+            confirm(
+                `¿Desea confirmar la venta por ${formatoMoneda(totalConIva)}?`
+            );
+
+
+        if (!confirmarVenta) {
+            return;
+        }
+
+
+        const codigoVenta =
+            DB.siguienteConsecutivo(
+                DB.KEYS.consecutivoVenta
+            );
+
+
+        const venta = {
+
+            codigoVenta,
+
+            cedulaCliente,
+
+            cedulaUsuario,
+
+            ivaVenta:
+                totalIva,
+
+            totalVenta:
+                totalConIva,
+
+            valorVenta:
+                totalVenta
+
+        };
+
+
+        const ventas =
+            DB.get(
+                DB.KEYS.ventas
+            );
+
+
+        ventas.push(venta);
+
+
+        DB.set(
+            DB.KEYS.ventas,
+            ventas
+        );
+
+
+        document.getElementById(
+            'consecutivo'
+        ).value =
+            codigoVenta;
+
+
+        const detalles =
+            DB.get(
+                DB.KEYS.detalleVentas
+            );
+
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
+
+            const p =
+                productosSel[i];
+
+
+            const cantidad =
+                Number(
+                    document.getElementById(
+                        `cant${i}`
+                    ).value
+                );
+
+
+            if (
+                p &&
+                cantidad > 0
+            ) {
+
+                detalles.push({
+
+                    codigoDetalleVenta:
+                        DB.siguienteConsecutivo(
+                            DB.KEYS.consecutivoDetalle
+                        ),
+
+                    cantidadProducto:
+                        cantidad,
+
+                    codigoProducto:
+                        p.codigoProducto,
+
+                    codigoVenta,
+
+                    valorTotal:
+                        cantidad *
+                        p.precioVenta,
+
+                    valorVenta:
+                        p.precioVenta,
+
+                    valorIva:
+                        (
+                            cantidad *
+                            p.precioVenta
+                        ) *
+                        (
+                            p.ivaCompra /
+                            100
+                        )
+
+                });
+
+            }
+
+        }
+
+
+        DB.set(
+            DB.KEYS.detalleVentas,
+            detalles
+        );
+
+
+        mostrarMensaje(
+            `✓ Venta registrada con éxito. Consecutivo: ${codigoVenta}`,
+            'ok'
+        );
+
+    }
+
+
+    /* =========================
+       LIMPIAR VENTA
+    ========================= */
+
+    function limpiarVenta() {
+
+        document.getElementById(
+            'cedulaCliente'
+        ).value = '';
+
+
+        document.getElementById(
+            'nombreCliente'
+        ).value = '';
+
+
+        document.getElementById(
+            'consecutivo'
+        ).value = '';
+
+
+        for (
+            let i = 0;
+            i < 3;
+            i++
+        ) {
+
+            document.getElementById(
+                `cod${i}`
+            ).value = '';
+
+
+            document.getElementById(
+                `nom${i}`
+            ).value = '';
+
+
+            document.getElementById(
+                `cant${i}`
+            ).value = '';
+
+
+            document.getElementById(
+                `tot${i}`
+            ).value = '';
+
+
+            productosSel[i] = null;
+
+        }
+
+
+        document.getElementById(
+            'totalVenta'
+        ).value = '0';
+
+
+        document.getElementById(
+            'totalIva'
+        ).value = '0';
+
+
+        document.getElementById(
+            'totalConIva'
+        ).value = '0';
+
+
+        document.getElementById(
+            'totalVentaTexto'
+        ).textContent =
+            formatoMoneda(0);
+
+
+        document.getElementById(
+            'totalIvaTexto'
+        ).textContent =
+            formatoMoneda(0);
+
+
+        document.getElementById(
+            'totalConIvaTexto'
+        ).textContent =
+            formatoMoneda(0);
+
+
+        mostrarMensaje(
+            'Formulario de venta limpiado.',
+            'ok'
+        );
+
+    }
+
+</script>
+
+</body>
+</html>
