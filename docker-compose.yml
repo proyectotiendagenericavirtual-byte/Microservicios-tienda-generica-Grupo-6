@@ -1,0 +1,47 @@
+version: "3.8"
+
+# Levanta los 5 microservicios de Tienda Genérica con un solo comando:
+#   docker compose up --build
+#
+# Cada uno corre en su propio contenedor, con su propio puerto, y se
+# comunican entre sí por HTTP usando el nombre del servicio como host
+# (ej: http://ms-proveedores:3003), tal como en una arquitectura real
+# de microservicios.
+
+services:
+  ms-usuarios:
+    build: ./ms-usuarios
+    ports:
+      - "3001:3001"
+
+  ms-clientes:
+    build: ./ms-clientes
+    ports:
+      - "3002:3002"
+
+  ms-proveedores:
+    build: ./ms-proveedores
+    ports:
+      - "3003:3003"
+
+  ms-productos:
+    build: ./ms-productos
+    ports:
+      - "3004:3004"
+    environment:
+      - URL_PROVEEDORES=http://ms-proveedores:3003
+    depends_on:
+      - ms-proveedores
+
+  ms-ventas:
+    build: ./ms-ventas
+    ports:
+      - "3005:3005"
+    environment:
+      - URL_CLIENTES=http://ms-clientes:3002
+      - URL_USUARIOS=http://ms-usuarios:3001
+      - URL_PRODUCTOS=http://ms-productos:3004
+    depends_on:
+      - ms-clientes
+      - ms-usuarios
+      - ms-productos

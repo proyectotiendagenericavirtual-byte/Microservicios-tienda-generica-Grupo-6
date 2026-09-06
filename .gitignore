@@ -1,0 +1,14 @@
+node_modules/
+package-lock.json
+npm-debug.log*
+
+# archivos de datos generados en tiempo de ejecución (se regeneran solos)
+src/usuarios.json
+src/clientes.json
+src/proveedores.json
+src/productos.json
+src/ventas.json
+src/detalleVentas.json
+src/consecutivos.json
+
+.env
