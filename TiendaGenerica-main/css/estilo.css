@@ -1,0 +1,98 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f6f6;
+    margin: 0;
+    color: #222;
+}
+.topbar {
+    background: #ffffff;
+    border-bottom: 3px solid #1f7a74;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.topbar h1 {
+    font-size: 18px;
+    color: #1f7a74;
+    margin: 0;
+}
+nav a {
+    margin-left: 14px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 4px;
+}
+nav a:hover, nav a.active {
+    background: #1f7a74;
+    color: #fff;
+}
+.container {
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 24px 30px;
+    border-radius: 8px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+h2 {
+    color: #1f7a74;
+}
+label {
+    display: inline-block;
+    width: 150px;
+    margin-top: 8px;
+}
+input[type=text], input[type=number], input[type=password], input[type=file] {
+    padding: 6px;
+    width: 260px;
+    margin-top: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+button {
+    background: #1f7a74;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 16px;
+    margin-right: 8px;
+}
+button:hover {
+    background: #16564f;
+}
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 20px;
+}
+table th, table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    font-size: 13px;
+    text-align: left;
+}
+table th {
+    background: #d9e8e6;
+}
+.msg {
+    margin-top: 14px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+.msg.ok { background: #dff2ea; color: #1f6f4f; }
+.msg.error { background: #fbe1e1; color: #a43535; }
+
+.banner-demo {
+    background: #fff3cd;
+    color: #7a5c00;
+    padding: 8px 20px;
+    font-size: 13px;
+    text-align: center;
+    border-bottom: 1px solid #f0d98c;
+}
